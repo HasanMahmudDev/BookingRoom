@@ -1,8 +1,16 @@
+using BookingRoom.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+// Register the application database context with in-memory database for development
+// Register the application database context with SQL Server
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Register static assets
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
