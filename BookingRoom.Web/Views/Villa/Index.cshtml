@@ -22,10 +22,10 @@
                     <th>
                         Name
                     </th>
-                    <th>Price</th>
-                    <th>Sqft</th>
-                    <th>Occupancy</th>
-                    <th></th>
+                    <th class="text-right">Price</th>
+                    <th class="text-right">Sqft</th>
+                    <th class="text-right">Occupancy</th>
+                    <th class="text-center">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,7 +36,7 @@
                         <td>@obj.Price</td>
                         <td>@obj.Sqft</td>
                         <td>@obj.Occupancy</td>
-                        <td>
+                        <td class="text-center">
                             <div class="w-75 btn-group" role="group">
                                 <a asp-controller="Villa" asp-action="Update" asp-route-villaId="@obj.Id"
                                    class="btn btn-success mx-2">
