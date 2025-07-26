@@ -1,4 +1,5 @@
-﻿using BookingRoom.Domain.Entities;
+﻿using BookingRoom.Application.Common.Interfaces;
+using BookingRoom.Domain.Entities;
 using BookingRoom.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,14 +7,14 @@ namespace BookingRoom.Web.Controllers
 {
     public class VillaController : Controller
     {
-        private readonly ApplicationDbContext _db;
-        public VillaController(ApplicationDbContext db)
+        private readonly IVillaRepository _villaRepository;
+        public VillaController(IVillaRepository villaRepository)
         {
-            _db = db;
+            _villaRepository = villaRepository;
         }
         public IActionResult Index()
         {
-            var villas = _db.Villas.ToList();
+            var villas = _villaRepository.GetAll();
             return View(villas);
         }
 
@@ -30,8 +31,8 @@ namespace BookingRoom.Web.Controllers
             }
             if (ModelState.IsValid)
             {
-                _db.Villas.Add(obj);
-                _db.SaveChanges();
+                _villaRepository.Add(obj);
+                _villaRepository.Save();
                 TempData["success"] = "Villa created successfully.";
                 return RedirectToAction(nameof(Index));
             }
@@ -42,7 +43,7 @@ namespace BookingRoom.Web.Controllers
 
         public IActionResult Update(int VillaId)
         {
-            Villa? obj = _db.Villas.FirstOrDefault(v => v.Id == VillaId);
+            Villa? obj = _villaRepository.Get(v => v.Id == VillaId);
             if(obj == null)
             {
                 return RedirectToAction("Error", "Home");
@@ -55,8 +56,8 @@ namespace BookingRoom.Web.Controllers
         {
             if (ModelState.IsValid && obj.Id>0)
             {
-                _db.Villas.Update(obj);
-                _db.SaveChanges();
+                _villaRepository.Update(obj);
+                _villaRepository.Save();
                 TempData["success"] = "Villa updated successfully.";
                 return RedirectToAction("Index", "Villa");
             }
@@ -67,7 +68,7 @@ namespace BookingRoom.Web.Controllers
 
         public IActionResult Delete(int VillaId)
         {
-            Villa? obj = _db.Villas.FirstOrDefault(v => v.Id == VillaId);
+            Villa? obj = _villaRepository.Get(v => v.Id == VillaId);
             if (obj is null)
             {
                 return RedirectToAction("Error", "Home");
@@ -78,11 +79,11 @@ namespace BookingRoom.Web.Controllers
         [HttpPost]
         public IActionResult Delete(Villa obj)
         {
-            Villa? villaFromDb = _db.Villas.FirstOrDefault(v => v.Id == obj.Id);
+            Villa? villaFromDb = _villaRepository.Get(v => v.Id == obj.Id);
             if (villaFromDb is not null)
             {
-                _db.Villas.Remove(villaFromDb);
-                _db.SaveChanges();
+                _villaRepository.Remove(villaFromDb);
+                _villaRepository.Save();
                 TempData["success"] = "Villa deleted successfully.";
                 return RedirectToAction(nameof(Index));
             }

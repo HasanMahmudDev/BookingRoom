@@ -1,4 +1,6 @@
+using BookingRoom.Application.Common.Interfaces;
 using BookingRoom.Infrastructure.Data;
+using BookingRoom.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +11,7 @@ builder.Services.AddControllersWithViews();
 // Register the application database context with SQL Server
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+builder.Services.AddScoped<IVillaRepository, VillaRepository>();
 // Register static assets
 var app = builder.Build();
 
