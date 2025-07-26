@@ -1,6 +1,7 @@
 ﻿using BookingRoom.Domain.Entities;
 using BookingRoom.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BookingRoom.Web.Controllers
 {
@@ -19,17 +20,21 @@ namespace BookingRoom.Web.Controllers
 
         public IActionResult VillaNumberCreate()
         {
+            IEnumerable<SelectListItem> villaList = _db.Villas.ToList().Select(v => new SelectListItem { Text = v.Name, Value = v.Id.ToString() });
+            //ViewData["VillaList"] = villaList;  
+            ViewBag.VillaList = villaList;
             return View();
         }
         [HttpPost]
-        public IActionResult VillaNumberCreate(Villa obj)
+        public IActionResult VillaNumberCreate(VillaNumber obj)
         {
+            //ModelState.Remove("Villa");
             if (ModelState.IsValid)
             {
-                _db.Villas.Add(obj);
+                _db.VillaNumbers.Add(obj);
                 _db.SaveChanges();
                 TempData["success"] = "Villa Number created successfully.";
-                return RedirectToAction("Index", "Villa");
+                return RedirectToAction("VillaNumberIndex", "VillaNumber");
             }
             TempData["error"] = "Villa creation failed.";
             return View();
