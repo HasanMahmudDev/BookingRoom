@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace BookingRoom.Application.Common.Interfaces
 {
-    public interface IVillaRepository : IRopository<Villa>
+    public interface IVillaNumberRepository : IRopository<VillaNumber>
     {
-        void Update(Villa entity);
+        void Update(VillaNumber entity);
     }
 }

@@ -32,7 +32,7 @@ namespace BookingRoom.Web.Controllers
             if (ModelState.IsValid)
             {
                 _unitOfWork.Villa.Add(obj);
-                _unitOfWork.Villa.Save();
+                _unitOfWork.Save();
                 TempData["success"] = "Villa created successfully.";
                 return RedirectToAction(nameof(Index));
             }
@@ -57,7 +57,7 @@ namespace BookingRoom.Web.Controllers
             if (ModelState.IsValid && obj.Id>0)
             {
                 _unitOfWork.Villa.Update(obj);
-                _unitOfWork.Villa.Save();
+                _unitOfWork.Save();
                 TempData["success"] = "Villa updated successfully.";
                 return RedirectToAction("Index", "Villa");
             }
@@ -83,7 +83,7 @@ namespace BookingRoom.Web.Controllers
             if (villaFromDb is not null)
             {
                 _unitOfWork.Villa.Remove(villaFromDb);
-                _unitOfWork.Villa.Save();
+                _unitOfWork.Save();
                 TempData["success"] = "Villa deleted successfully.";
                 return RedirectToAction(nameof(Index));
             }
