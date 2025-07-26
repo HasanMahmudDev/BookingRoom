@@ -11,7 +11,7 @@ builder.Services.AddControllersWithViews();
 // Register the application database context with SQL Server
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddScoped<IVillaRepository, VillaRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 // Register static assets
 var app = builder.Build();
 
