@@ -32,8 +32,10 @@ namespace BookingRoom.Web.Controllers
             {
                 _db.Villas.Add(obj);
                 _db.SaveChanges();
+                TempData["success"] = "Villa created successfully.";
                 return RedirectToAction("Index", "Villa");
             }
+            TempData["error"] = "Villa creation failed.";
             return View();
            
         }
@@ -55,8 +57,10 @@ namespace BookingRoom.Web.Controllers
             {
                 _db.Villas.Update(obj);
                 _db.SaveChanges();
+                TempData["success"] = "Villa updated successfully.";
                 return RedirectToAction("Index", "Villa");
             }
+            TempData["error"] = "Villa not found.";
             return View();
 
         }
@@ -79,8 +83,10 @@ namespace BookingRoom.Web.Controllers
             {
                 _db.Villas.Remove(villaFromDb);
                 _db.SaveChanges();
+                TempData["success"] = "Villa deleted successfully.";
                 return RedirectToAction("Index", "Villa");
             }
+            TempData["error"] = "Villa not found.";
             return View();
 
         }
